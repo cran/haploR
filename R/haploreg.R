@@ -1,4 +1,4 @@
-#' This function queries Haploreg web-based tool and returns results.
+#' This function queries HaploReg web-based tool and returns results.
 #' 
 #' @param query Query (a vector of rsIDs).
 #' @param file A text file (one refSNP ID per line).
@@ -24,11 +24,11 @@
 #' \code{refseq} for RefSeq genes;
 #' \code{both} for both.
 #' Default: \code{gencode}.
-#' @param url Haplotype url address. 
+#' @param url HaploReg url address. 
 #' Default: <http://archive.broadinstitute.org/mammals/haploreg/haploreg.php>
 #' @param verbose Verbosing output. Default: FALSE.
 #' @return A data frame (table) with results similar to 
-#' Haploreg uses.
+#' HaploReg uses.
 #' @examples
 #' data <- queryHaploreg(c("rs10048158","rs4791078"))
 #' head(data)
@@ -86,19 +86,22 @@ queryHaploreg <- function(query=NULL, file=NULL,
                    output=output)
       
     }
+    res.table <- data.frame()
+    tryCatch({
+        # Form encoded: multipart encoded
+        r <- POST(url=url, body = body, encode="multipart",  timeout(10))
+  
+        dat <- content(r, "text")
+        sp <- strsplit(dat, '\n')
+        res.table <- data.frame(matrix(nrow=length(sp[[1]])-1, ncol=length(strsplit(sp[[1]][1], '\t')[[1]])))
+        colnames(res.table) <- strsplit(sp[[1]][1], '\t')[[1]]
+  
+        for(i in 2:length(sp[[1]])) {
+            res.table[i-1,] <- strsplit(sp[[1]][i], '\t')[[1]]
+        }
+    }, error=function(e) {
+        print(e)
+    })
     
-    
-    # Form encoded: multipart encoded
-    r <- POST(url=url, body = body, encode="multipart")
-  
-    dat <- content(r, "text")
-    sp <- strsplit(dat, '\n')
-    res.table <- data.frame(matrix(nrow=length(sp[[1]])-1, ncol=length(strsplit(sp[[1]][1], '\t')[[1]])))
-    colnames(res.table) <- strsplit(sp[[1]][1], '\t')[[1]]
-  
-    for(i in 2:length(sp[[1]])) {
-        res.table[i-1,] <- strsplit(sp[[1]][i], '\t')[[1]]
-    }
-  
     return(res.table)
 }

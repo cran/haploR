@@ -2,7 +2,7 @@
 % Please edit documentation in R/regulome.R
 \name{queryRegulome}
 \alias{queryRegulome}
-\title{This function queries Regulome \url{www.regulomedb.org} web-based tool 
+\title{This function queries RegulomeDB \url{www.regulomedb.org} web-based tool 
 and returns results in a data frame.}
 \usage{
 queryRegulome(query = NULL, format = "full",
@@ -20,15 +20,20 @@ Default: <http://www.regulomedb.org/results>}
 \item{verbose}{Verbosing output. Default: FALSE.}
 }
 \value{
-A data frame (table) or an object with results similar to 
-Regulome uses.
+A list of two:
+(1) a data frame (table) and
+(2) a list of bad SNP IDs. 
+Bad SNP ID are those IDs 
+that were not found in 1000 Genomes 
+Phase 1 data
 }
 \description{
-This function queries Regulome \url{www.regulomedb.org} web-based tool 
+This function queries RegulomeDB \url{www.regulomedb.org} web-based tool 
 and returns results in a data frame.
 }
 \examples{
 data <- queryRegulome(c("rs4791078","rs10048158"))
-head(data)
+head(data[["res.table"]])
+head(data[["bad.snp.id"]])
 }
 
