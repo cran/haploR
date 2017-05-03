@@ -2,7 +2,7 @@
 #' 
 #' @param query Query (a vector of rsIDs).
 #' @param file A text file (one refSNP ID per line).
-#' @param study A particular study. See function \code{getStudyList(...)}.
+#' @param study A particular study. See function \code{getHaploRegStudyList(...)}.
 #' Default: \code{NULL}.
 #' @param ldThresh LD threshold, r2 (select NA to only show query variants). 
 #' Default: 0.8.
@@ -26,6 +26,10 @@
 #' Default: \code{gencode}.
 #' @param url HaploReg url address. 
 #' Default: <http://archive.broadinstitute.org/mammals/haploreg/haploreg.php>
+#' @param timeout A \code{timeout} parameter for \code{curl}.
+#' Default: 10
+#' @param encoding sets the \code{encoding} for correct retrieval web-page content.
+#' Default: \code{UTF-8}
 #' @param verbose Verbosing output. Default: FALSE.
 #' @return A data frame (table) with results similar to 
 #' HaploReg uses.
@@ -35,14 +39,16 @@
 #' @rdname haploR-queryHaploreg
 #' @export
 queryHaploreg <- function(query=NULL, file=NULL,
-                          study=NULL,
-                          ldThresh=0.8, 
-                          ldPop="EUR", 
-                          epi="vanilla", 
-                          cons="siphy", 
-                          genetypes="gencode",
-                          url="http://archive.broadinstitute.org/mammals/haploreg/haploreg.php",
-                          verbose=FALSE) {
+              study=NULL,
+              ldThresh=0.8, 
+              ldPop="EUR", 
+              epi="vanilla", 
+              cons="siphy", 
+              genetypes="gencode",
+              url="http://archive.broadinstitute.org/mammals/haploreg/haploreg.php",
+              timeout=10,
+              encoding="UTF-8",
+              verbose=FALSE) {
     
   
     trunc <- 1000 # can be 0 2 3 4 5 1000
@@ -89,9 +95,9 @@ queryHaploreg <- function(query=NULL, file=NULL,
     res.table <- data.frame()
     tryCatch({
         # Form encoded: multipart encoded
-        r <- POST(url=url, body = body, encode="multipart",  timeout(10))
+        r <- POST(url=url, body = body, encode="multipart",  timeout(timeout))
   
-        dat <- content(r, "text")
+        dat <- content(r, "text", encoding=encoding)
         sp <- strsplit(dat, '\n')
         res.table <- data.frame(matrix(nrow=length(sp[[1]])-1, ncol=length(strsplit(sp[[1]][1], '\t')[[1]])))
         colnames(res.table) <- strsplit(sp[[1]][1], '\t')[[1]]
@@ -103,5 +109,14 @@ queryHaploreg <- function(query=NULL, file=NULL,
         print(e)
     })
     
-    return(res.table)
+    #Convert numeric-like columns to actual numeric #
+    for(i in 1:dim(res.table)[2]) {
+        col.num.conv <- suppressWarnings(as.numeric(res.table[,i]))
+        na.rate <- length(which(is.na(col.num.conv)))/length(col.num.conv)
+        if(na.rate <= 0.5) {
+            res.table[,i] <- col.num.conv
+        }
+    }
+    
+    return(as_tibble(res.table))
 }

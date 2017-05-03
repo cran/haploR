@@ -1,4 +1,5 @@
-New for version 1.4.2
+New for version 1.4.4
 ======================
 * Version released
-* Vignette and DESCRIPTION updated.
+* Unit tests added
+* Minor bug fixes 

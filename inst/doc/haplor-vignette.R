@@ -1,15 +1,30 @@
 ## ---- echo=TRUE, eval=FALSE----------------------------------------------
-#  devtools::install_github("izhbannikov/haplor", buildVignette=TRUE)
+#  install.packages("haploR", dependencies = TRUE)
+
+## ---- echo=TRUE, eval=FALSE----------------------------------------------
+#  devtools::install_github("izhbannikov/haplor")
 
 ## ---- echo=TRUE, message=FALSE-------------------------------------------
 library(haploR)
-results <- queryHaploreg(query=c("rs10048158","rs4791078"))
-head(results)
+x <- queryHaploreg(query=c("rs10048158","rs4791078"))
+x
+
+## ---- echo=TRUE, message=FALSE-------------------------------------------
+subset.high.LD <- x[x$r2 > 0.9, c("rsID", "r2", "chr", "pos_hg38", "is_query_snp", "ref", "alt")]
+subset.high.LD
+
+## ---- echo=TRUE, message=FALSE, eval=FALSE-------------------------------
+#  require(openxlsx)
+#  write.xlsx(x=subset.high.LD, file="subset.high.LD.xlsx")
+
+## ---- echo=TRUE, message=FALSE-------------------------------------------
+x[, c("Motifs", "rsID")]
+x[, c("eQTL", "rsID")]
 
 ## ---- echo=TRUE, message=FALSE-------------------------------------------
 library(haploR)
-results <- queryHaploreg(file=system.file("extdata/snps.txt", package = "haploR"))
-head(results)
+x <- queryHaploreg(file=system.file("extdata/snps.txt", package = "haploR"))
+x
 
 ## ---- echo=TRUE, message=FALSE-------------------------------------------
 library(haploR)
@@ -21,13 +36,14 @@ studies[[1]]
 studies[[2]]
 # Query Hploreg to explore results from 
 # this study:
-results <- queryHaploreg(study=studies[[2]])
-head(results)
+x <- queryHaploreg(study=studies[[1]])
+x
 
 ## ---- echo=TRUE, message=FALSE-------------------------------------------
 library(haploR)
-data <- queryRegulome(c("rs4791078","rs10048158"))
-head(data)
+x <- queryRegulome(c("rs4791078","rs10048158"))
+x$res.table
+x$bad.snp.id
 
 ## ---- echo=TRUE----------------------------------------------------------
 sessionInfo()

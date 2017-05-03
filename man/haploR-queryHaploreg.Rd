@@ -7,14 +7,14 @@
 queryHaploreg(query = NULL, file = NULL, study = NULL, ldThresh = 0.8,
   ldPop = "EUR", epi = "vanilla", cons = "siphy", genetypes = "gencode",
   url = "http://archive.broadinstitute.org/mammals/haploreg/haploreg.php",
-  verbose = FALSE)
+  timeout = 10, encoding = "UTF-8", verbose = FALSE)
 }
 \arguments{
 \item{query}{Query (a vector of rsIDs).}
 
 \item{file}{A text file (one refSNP ID per line).}
 
-\item{study}{A particular study. See function \code{getStudyList(...)}.
+\item{study}{A particular study. See function \code{getHaploRegStudyList(...)}.
 Default: \code{NULL}.}
 
 \item{ldThresh}{LD threshold, r2 (select NA to only show query variants). 
@@ -45,6 +45,12 @@ Default: \code{gencode}.}
 \item{url}{HaploReg url address. 
 Default: <http://archive.broadinstitute.org/mammals/haploreg/haploreg.php>}
 
+\item{timeout}{A \code{timeout} parameter for \code{curl}.
+Default: 10}
+
+\item{encoding}{sets the \code{encoding} for correct retrieval web-page content.
+Default: \code{UTF-8}}
+
 \item{verbose}{Verbosing output. Default: FALSE.}
 }
 \value{
@@ -58,4 +64,3 @@ This function queries HaploReg web-based tool and returns results.
 data <- queryHaploreg(c("rs10048158","rs4791078"))
 head(data)
 }
-
