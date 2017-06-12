@@ -7,7 +7,8 @@
 queryHaploreg(query = NULL, file = NULL, study = NULL, ldThresh = 0.8,
   ldPop = "EUR", epi = "vanilla", cons = "siphy", genetypes = "gencode",
   url = "http://archive.broadinstitute.org/mammals/haploreg/haploreg.php",
-  timeout = 10, encoding = "UTF-8", verbose = FALSE)
+  timeout = 100, encoding = "UTF-8", querySNP = FALSE, fields = NULL,
+  verbose = FALSE)
 }
 \arguments{
 \item{query}{Query (a vector of rsIDs).}
@@ -46,10 +47,16 @@ Default: \code{gencode}.}
 Default: <http://archive.broadinstitute.org/mammals/haploreg/haploreg.php>}
 
 \item{timeout}{A \code{timeout} parameter for \code{curl}.
-Default: 10}
+Default: 100}
 
 \item{encoding}{sets the \code{encoding} for correct retrieval web-page content.
 Default: \code{UTF-8}}
+
+\item{querySNP}{A flag indicating to return query SNPs only. 
+Default: \code{FALSE}}
+
+\item{fields}{A set of fields to extract. Refer to the package vignette 
+for available fields. Default: \code{All}.}
 
 \item{verbose}{Verbosing output. Default: FALSE.}
 }

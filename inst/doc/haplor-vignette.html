@@ -118,7 +118,7 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">Using haploR, an R package for querying HaploReg and RegulomeDB</h1>
 <h4 class="author"><em>Ilya Y. Zhbannikov</em></h4>
-<h4 class="date"><em>Tue May 2 18:02:00 2017</em></h4>
+<h4 class="date"><em>Sun Jun 11 19:39:01 2017</em></h4>
 
 </div>
 
@@ -371,7 +371,7 @@ x &lt;- queryHaploreg(study=studies[[1]])
 x</code></pre>
 <pre><code>## # A tibble: 117 × 33
 ##      chr pos_hg38    r2  `D'` is_query_snp       rsID   ref   alt   AFR
-##    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;        &lt;dbl&gt;      &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;
+##    &lt;chr&gt;    &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;        &lt;dbl&gt;      &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;
 ## 1     11 34524785  0.97  1.00            0   rs836138     C     A  0.34
 ## 2     11 34524788  0.87  0.97            0 rs11032744     C     T  0.04
 ## 3     11 34526877  1.00  1.00            0   rs836137     A     G  0.37
@@ -406,7 +406,7 @@ x</code></pre>
 <h4>Arguments</h4>
 <ul>
 <li><em>query</em>: Query (a vector of rsIDs).</li>
-<li><em>format</em>: An output format. Only ‘full’ is currently supported. See <code>http://www.regulomedb.org/results</code>.</li>
+<li><em>format</em>: An output format. Only ‘full’ is currently supported. See <code>http://www.regulomedb.org/results</code>. Can be on of the following: <code>full</code> - plain text, <code>bed</code> - BED (Browser Extensible Data) format, see e.g. <a href="https://genome.ucsc.edu/FAQ/FAQformat.html#format5.1" class="uri">https://genome.ucsc.edu/FAQ/FAQformat.html#format5.1</a>, <code>gff</code> - GFF (General Feature Format), see e.g. <a href="https://genome.ucsc.edu/FAQ/FAQformat.html#format3" class="uri">https://genome.ucsc.edu/FAQ/FAQformat.html#format3</a>. Only <code>full</code> is currently supported.</li>
 <li><em>url</em>: Regulome url address. Default: <code>http://www.regulomedb.org/results</code></li>
 <li><em>timeout</em>: A ‘timeout’ parameter for ‘curl’. Default: 10.</li>
 <li><em>check_bad_snps</em>: Checks if all query SNPs are annotated (i.e. presented in the Regulome Database). Default: ‘TRUE’</li>
@@ -449,7 +449,7 @@ x$res.table</code></pre>
 <pre class="r"><code>sessionInfo()</code></pre>
 <pre><code>## R Under development (unstable) (2017-03-04 r72303)
 ## Platform: x86_64-apple-darwin13.4.0 (64-bit)
-## Running under: macOS Sierra 10.12.4
+## Running under: macOS Sierra 10.12.5
 ## 
 ## Matrix products: default
 ## BLAS: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRblas.0.dylib
@@ -462,14 +462,14 @@ x$res.table</code></pre>
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] haploR_1.4.4
+## [1] haploR_1.4.6
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.12.10    XML_3.98-1.6    digest_0.6.12   rprojroot_1.2  
+##  [1] Rcpp_0.12.10    XML_3.98-1.7    digest_0.6.12   rprojroot_1.2  
 ##  [5] mime_0.5        R6_2.2.0        backports_1.0.5 magrittr_1.5   
-##  [9] evaluate_0.10   httr_1.2.1      stringi_1.1.5   curl_2.4       
-## [13] RUnit_0.4.31    rmarkdown_1.4   tools_3.4.0     stringr_1.2.0  
-## [17] yaml_2.1.14     compiler_3.4.0  htmltools_0.3.5 knitr_1.15.1   
+##  [9] evaluate_0.10   httr_1.2.1      stringi_1.1.5   curl_2.6       
+## [13] RUnit_0.4.31    rmarkdown_1.5   tools_3.4.0     stringr_1.2.0  
+## [17] yaml_2.1.14     compiler_3.4.0  htmltools_0.3.6 knitr_1.15.1   
 ## [21] tibble_1.3.0</code></pre>
 </div>
 
@@ -496,7 +496,7 @@ $(document).ready(function () {
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>

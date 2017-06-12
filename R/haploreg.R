@@ -27,9 +27,13 @@
 #' @param url HaploReg url address. 
 #' Default: <http://archive.broadinstitute.org/mammals/haploreg/haploreg.php>
 #' @param timeout A \code{timeout} parameter for \code{curl}.
-#' Default: 10
+#' Default: 100
 #' @param encoding sets the \code{encoding} for correct retrieval web-page content.
 #' Default: \code{UTF-8}
+#' @param querySNP A flag indicating to return query SNPs only. 
+#' Default: \code{FALSE}
+#' @param fields A set of fields to extract. Refer to the package vignette 
+#' for available fields. Default: \code{All}.
 #' @param verbose Verbosing output. Default: FALSE.
 #' @return A data frame (table) with results similar to 
 #' HaploReg uses.
@@ -46,8 +50,10 @@ queryHaploreg <- function(query=NULL, file=NULL,
               cons="siphy", 
               genetypes="gencode",
               url="http://archive.broadinstitute.org/mammals/haploreg/haploreg.php",
-              timeout=10,
+              timeout=100,
               encoding="UTF-8",
+              querySNP=FALSE,
+              fields=NULL,
               verbose=FALSE) {
     
   
@@ -71,7 +77,7 @@ queryHaploreg <- function(query=NULL, file=NULL,
       query <- upload_file(file)
       body <- list(upload_file=query, 
                    gwas_idx=gwas_idx,
-                   ldThresh=as.character(ldThresh), 
+                   ldThresh=ifelse(!is.na(ldThresh), as.character(ldThresh), "1.1"), 
                    ldPop=ldPop, epi=epi, 
                    cons=cons, 
                    genetypes=genetypes,
@@ -83,7 +89,7 @@ queryHaploreg <- function(query=NULL, file=NULL,
       query <- paste(query, collapse = ',') 
       body <- list(query=query, 
                    gwas_idx=gwas_idx,
-                   ldThresh=as.character(ldThresh), 
+                   ldThresh=ifelse(!is.na(ldThresh), as.character(ldThresh), "1.1"), 
                    ldPop=ldPop, epi=epi, 
                    cons=cons, 
                    genetypes=genetypes,
@@ -112,11 +118,22 @@ queryHaploreg <- function(query=NULL, file=NULL,
     #Convert numeric-like columns to actual numeric #
     for(i in 1:dim(res.table)[2]) {
         col.num.conv <- suppressWarnings(as.numeric(res.table[,i]))
-        na.rate <- length(which(is.na(col.num.conv)))/length(col.num.conv)
-        if(na.rate <= 0.5) {
+        #na.rate <- length(which(is.na(col.num.conv)))/length(col.num.conv)
+        if(!any(is.na(col.num.conv))) {
             res.table[,i] <- col.num.conv
         }
     }
+    
+    if(querySNP) {
+        res.table <- res.table[which(res.table$is_query_snp == 1), ]
+    }
+    
+    if(!is.null(fields)) {
+        res.table <- res.table[, fields]
+    }
+    
+    # Removing blank rows:
+    res.table <- res.table[, colSums(is.na(res.table)) <= 1] 
     
     return(as_tibble(res.table))
 }
