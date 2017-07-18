@@ -1,4 +1,4 @@
-New for version 1.4.6
+New for version 1.5.1
 ======================
 * Version released
-* Parameters 'fields' and 'querySNP' added
+* Promoter_histone_marks and Enhancer_histone_marks fields added

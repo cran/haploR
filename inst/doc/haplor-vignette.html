@@ -118,7 +118,7 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">Using haploR, an R package for querying HaploReg and RegulomeDB</h1>
 <h4 class="author"><em>Ilya Y. Zhbannikov</em></h4>
-<h4 class="date"><em>Sun Jun 11 19:39:01 2017</em></h4>
+<h4 class="date"><em>Tue Jul 18 20:44:34 2017</em></h4>
 
 </div>
 
@@ -230,6 +230,8 @@ $(document).ready(function () {
 <li><em>RefSeq_distance</em>: NCBI Reference Sequence distance. Type: numeric.</li>
 <li><em>dbSNP_functional_annotation</em> Annotated proteins associated with the SNP. Type: numeric.</li>
 <li><em>query_snp_rsid</em>: Query SNP rs ID. Type: character.</li>
+<li><em>Promoter_histone_marks</em>: Promoter histone marks. Type: factor.</li>
+<li><em>Enhancer_histone_marks</em>: Enhancer histone marks. Type: factor.</li>
 </ul>
 <p>Number of rows is not constant, at least equal or more than the number of query SNPs, and depends on <em>r2</em> parameter choosen in a query (default 0.8). This means that the program outputs not only query SNPs, but also those SNPs that have <em>r2</em> <span class="math inline">\(\geq\)</span> 0.8 with the query SNPs.</p>
 </div>
@@ -238,81 +240,82 @@ $(document).ready(function () {
 <pre class="r"><code>library(haploR)
 x &lt;- queryHaploreg(query=c(&quot;rs10048158&quot;,&quot;rs4791078&quot;))
 x</code></pre>
-<pre><code>## # A tibble: 33 × 33
-##      chr pos_hg38    r2  `D'` is_query_snp       rsID   ref   alt   AFR
-##    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;        &lt;dbl&gt;      &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;
-## 1     17 66213160  0.82  0.93            0  rs4790914     C     G  0.84
-## 2     17 66213422  0.82  0.93            0  rs4791079     T     G  0.85
-## 3     17 66213896  0.82  0.93            0  rs4791078     A     C  0.84
-## 4     17 66214285  0.83  0.93            0  rs1971682     G     C  0.86
-## 5     17 66216124  0.83  0.93            0  rs4366742     T     C  0.93
-## 6     17 66219453  0.83  0.93            0  rs2215415     G     A  0.91
-## 7     17 66220526  0.83  0.93            0  rs3744317     G     A  0.93
-## 8     17 66227121  0.83  0.94            0  rs8178827     C     T  0.90
-## 9     17 66230111  0.83  0.93            0 rs71160546    GA     G  0.87
-## 10    17 66231972  0.82  0.99            0 rs11079645     G     T  0.88
-## # ... with 23 more rows, and 24 more variables: AMR &lt;dbl&gt;, ASN &lt;dbl&gt;,
-## #   EUR &lt;dbl&gt;, GERP_cons &lt;dbl&gt;, SiPhy_cons &lt;dbl&gt;, Chromatin_States &lt;chr&gt;,
-## #   Chromatin_States_Imputed &lt;chr&gt;, Chromatin_Marks &lt;chr&gt;, DNAse &lt;chr&gt;,
-## #   Proteins &lt;chr&gt;, eQTL &lt;chr&gt;, gwas &lt;chr&gt;, grasp &lt;chr&gt;, Motifs &lt;chr&gt;,
-## #   GENCODE_id &lt;chr&gt;, GENCODE_name &lt;chr&gt;, GENCODE_direction &lt;dbl&gt;,
-## #   GENCODE_distance &lt;dbl&gt;, RefSeq_id &lt;chr&gt;, RefSeq_name &lt;chr&gt;,
-## #   RefSeq_direction &lt;dbl&gt;, RefSeq_distance &lt;dbl&gt;,
-## #   dbSNP_functional_annotation &lt;chr&gt;, query_snp_rsid &lt;chr&gt;</code></pre>
+<pre><code>## # A tibble: 33 x 35
+##       chr pos_hg38     r2   `D'` is_query_snp       rsID    ref    alt
+##    &lt;fctr&gt;   &lt;fctr&gt; &lt;fctr&gt; &lt;fctr&gt;       &lt;fctr&gt;     &lt;fctr&gt; &lt;fctr&gt; &lt;fctr&gt;
+##  1     17 66240200      1      1            1 rs10048158      T      C
+##  2     17 66240200   0.82   0.93            0 rs10048158      T      C
+##  3     17 66231972   0.82   0.99            0 rs11079645      G      T
+##  4     17 66248387   0.99      1            0 rs12603947      T      C
+##  5     17 66248387   0.81   0.92            0 rs12603947      T      C
+##  6     17 66214285   0.98   0.99            0  rs1971682      G      C
+##  7     17 66214285   0.83   0.93            0  rs1971682      G      C
+##  8     17 66240359   0.83      1            0  rs2013785      A      G
+##  9     17 66219777   0.82   0.99            0  rs2215414      A      G
+## 10     17 66219453   0.83   0.93            0  rs2215415      G      A
+## # ... with 23 more rows, and 27 more variables: AFR &lt;fctr&gt;, AMR &lt;fctr&gt;,
+## #   ASN &lt;fctr&gt;, EUR &lt;fctr&gt;, GERP_cons &lt;fctr&gt;, SiPhy_cons &lt;fctr&gt;,
+## #   Chromatin_States &lt;fctr&gt;, Chromatin_States_Imputed &lt;fctr&gt;,
+## #   Chromatin_Marks &lt;fctr&gt;, DNAse &lt;fctr&gt;, Proteins &lt;fctr&gt;, eQTL &lt;fctr&gt;,
+## #   gwas &lt;fctr&gt;, grasp &lt;fctr&gt;, Motifs &lt;fctr&gt;, GENCODE_id &lt;fctr&gt;,
+## #   GENCODE_name &lt;fctr&gt;, GENCODE_direction &lt;fctr&gt;,
+## #   GENCODE_distance &lt;fctr&gt;, RefSeq_id &lt;fctr&gt;, RefSeq_name &lt;fctr&gt;,
+## #   RefSeq_direction &lt;fctr&gt;, RefSeq_distance &lt;fctr&gt;,
+## #   dbSNP_functional_annotation &lt;fctr&gt;, query_snp_rsid &lt;fctr&gt;,
+## #   Promoter_histone_marks &lt;fctr&gt;, Enhancer_histone_marks &lt;fctr&gt;</code></pre>
 <p>Here <em>query</em> is a vector with names of genetic variants.</p>
 <p>We then can create a subset from the results, for example, to choose only SNPs with r2 <span class="math inline">\(&gt;\)</span> 0.9:</p>
-<pre class="r"><code>subset.high.LD &lt;- x[x$r2 &gt; 0.9, c(&quot;rsID&quot;, &quot;r2&quot;, &quot;chr&quot;, &quot;pos_hg38&quot;, &quot;is_query_snp&quot;, &quot;ref&quot;, &quot;alt&quot;)]
-subset.high.LD</code></pre>
-<pre><code>## # A tibble: 13 × 7
-##          rsID    r2   chr pos_hg38 is_query_snp   ref   alt
-##         &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;
-## 1  rs10048158  1.00    17 66240200            1     T     C
-## 2   rs9895261  1.00    17 66244318            0     A     G
-## 3  rs12603947  0.99    17 66248387            0     T     C
-## 4   rs7342920  0.99    17 66248527            0     T     G
-## 5   rs4790914  1.00    17 66213160            0     C     G
-## 6   rs4791079  1.00    17 66213422            0     T     G
-## 7   rs4791078  1.00    17 66213896            1     A     C
-## 8   rs1971682  0.98    17 66214285            0     G     C
-## 9   rs4366742  0.99    17 66216124            0     T     C
-## 10  rs2215415  0.99    17 66219453            0     G     A
-## 11  rs3744317  0.99    17 66220526            0     G     A
-## 12  rs8178827  0.96    17 66227121            0     C     T
-## 13 rs71160546  0.94    17 66230111            0    GA     G</code></pre>
+<pre class="r"><code>subset.high.LD &lt;- x[x$r2 &gt; 0.9, c(&quot;rsID&quot;, &quot;r2&quot;, &quot;chr&quot;, &quot;pos_hg38&quot;, &quot;is_query_snp&quot;, &quot;ref&quot;, &quot;alt&quot;)]</code></pre>
+<pre><code>## Warning in Ops.factor(x$r2, 0.9): '&gt;' not meaningful for factors</code></pre>
+<pre class="r"><code>subset.high.LD</code></pre>
+<pre><code>## # A tibble: 33 x 7
+##      rsID     r2    chr pos_hg38 is_query_snp    ref    alt
+##    &lt;fctr&gt; &lt;fctr&gt; &lt;fctr&gt;   &lt;fctr&gt;       &lt;fctr&gt; &lt;fctr&gt; &lt;fctr&gt;
+##  1     NA     NA     NA       NA           NA     NA     NA
+##  2     NA     NA     NA       NA           NA     NA     NA
+##  3     NA     NA     NA       NA           NA     NA     NA
+##  4     NA     NA     NA       NA           NA     NA     NA
+##  5     NA     NA     NA       NA           NA     NA     NA
+##  6     NA     NA     NA       NA           NA     NA     NA
+##  7     NA     NA     NA       NA           NA     NA     NA
+##  8     NA     NA     NA       NA           NA     NA     NA
+##  9     NA     NA     NA       NA           NA     NA     NA
+## 10     NA     NA     NA       NA           NA     NA     NA
+## # ... with 23 more rows</code></pre>
 <p>We can then save the <em>subset.high.LD</em> into an Excel workbook:</p>
 <pre class="r"><code>require(openxlsx)
 write.xlsx(x=subset.high.LD, file=&quot;subset.high.LD.xlsx&quot;)</code></pre>
 <p>This was an example of gathering post-gwas information directly from the online tool. <em>haploR</em> has an additional advantage because it downloads the full information for query retrieved by HaploReg. For example, if you go online and submit these two SNPs to HaploReg (<a href="http://archive.broadinstitute.org/mammals/haploreg/haploreg.php" class="uri">http://archive.broadinstitute.org/mammals/haploreg/haploreg.php</a>), you will see that some cells of columns “Motifs changed” and “Selected eQTL hits” are hidded (only number of hits are given). <em>haploR</em> retrives this information in a form of a data frame which can be saved into Excel file.</p>
 <pre class="r"><code>x[, c(&quot;Motifs&quot;, &quot;rsID&quot;)]</code></pre>
-<pre><code>## # A tibble: 33 × 2
-##                                                                         Motifs
-##                                                                          &lt;chr&gt;
-## 1  AP-4_3;Ascl2;E2A_5;Foxa_disc3;HEN1_2;LBP-1_2;NRSF_disc4;NRSF_disc8;NRSF_kno
-## 2                                    Pou5f1_disc1;RFX5_known1;Sox_4;TATA_disc7
-## 3                                                            RFX5_known5;Zbtb3
-## 4                  AP-1_disc1;HEN1_1;Maf_disc2;NR4A_known1;RAR;RXRA_known3;T3R
-## 5                                                                       Pdx1_2
-## 6                                             AP-1_disc1;HEY1_disc1;TATA_disc2
-## 7                                                                            .
-## 8                                                ATF3_disc1;LXR_2;SREBP_known4
-## 9                                                 Evi-1_3;Irf_disc3;STAT_disc3
-## 10                                                             GR_disc4;SZF1-1
-## # ... with 23 more rows, and 1 more variables: rsID &lt;chr&gt;</code></pre>
+<pre><code>## # A tibble: 33 x 2
+##                                                                Motifs
+##                                                                &lt;fctr&gt;
+##  1                                        Mrg1::Hoxa9_1;Pou2f2_known3
+##  2                                        Mrg1::Hoxa9_1;Pou2f2_known3
+##  3                                                    GR_disc4;SZF1-1
+##  4 E2F_disc4;Irf_disc1;Pou2f2_known3;SRF_known4;THAP1_disc1;YY1_disc1
+##  5 E2F_disc4;Irf_disc1;Pou2f2_known3;SRF_known4;THAP1_disc1;YY1_disc1
+##  6        AP-1_disc1;HEN1_1;Maf_disc2;NR4A_known1;RAR;RXRA_known3;T3R
+##  7        AP-1_disc1;HEN1_1;Maf_disc2;NR4A_known1;RAR;RXRA_known3;T3R
+##  8                                              BDP1_disc2;Hdx;Zfp410
+##  9                                   SP1_known3;SRF_known5;SRF_known6
+## 10                                   AP-1_disc1;HEY1_disc1;TATA_disc2
+## # ... with 23 more rows, and 1 more variables: rsID &lt;fctr&gt;</code></pre>
 <pre class="r"><code>x[, c(&quot;eQTL&quot;, &quot;rsID&quot;)]</code></pre>
-<pre><code>## # A tibble: 33 × 2
+<pre><code>## # A tibble: 33 x 2
 ##                                                                           eQTL
-##                                                                          &lt;chr&gt;
-## 1                  GTEx2015_v6,Heart_Left_Ventricle,PRKCA,3.25964766049438e-10
-## 2  GTEx2015_v6,Heart_Left_Ventricle,PRKCA,2.87827072933431e-10;Koopman2014,Hea
-## 3                  GTEx2015_v6,Heart_Left_Ventricle,PRKCA,2.87827072933431e-10
-## 4                  GTEx2015_v6,Heart_Left_Ventricle,PRKCA,5.94596439339797e-11
-## 5                  GTEx2015_v6,Heart_Left_Ventricle,PRKCA,6.83955923561212e-11
-## 6                  GTEx2015_v6,Heart_Left_Ventricle,PRKCA,6.80544182605399e-11
-## 7  GTEx2015_v6,Heart_Left_Ventricle,PRKCA,6.80544182605399e-11;Koopman2014,Hea
-## 8                  GTEx2015_v6,Heart_Left_Ventricle,PRKCA,2.44658806733437e-10
-## 9                  GTEx2015_v6,Heart_Left_Ventricle,PRKCA,2.09660151875432e-10
-## 10                 GTEx2015_v6,Heart_Left_Ventricle,PRKCA,6.18988623085424e-12
-## # ... with 23 more rows, and 1 more variables: rsID &lt;chr&gt;</code></pre>
+##                                                                         &lt;fctr&gt;
+##  1 GTEx2015_v6,Heart_Atrial_Appendage,PRKCA,7.3104710229491e-07;GTEx2015_v6,He
+##  2 GTEx2015_v6,Heart_Atrial_Appendage,PRKCA,7.3104710229491e-07;GTEx2015_v6,He
+##  3                 GTEx2015_v6,Heart_Left_Ventricle,PRKCA,6.18988623085424e-12
+##  4 GTEx2015_v6,Heart_Atrial_Appendage,PRKCA,7.77998072609731e-06;GTEx2015_v6,H
+##  5 GTEx2015_v6,Heart_Atrial_Appendage,PRKCA,7.77998072609731e-06;GTEx2015_v6,H
+##  6                 GTEx2015_v6,Heart_Left_Ventricle,PRKCA,5.94596439339797e-11
+##  7                 GTEx2015_v6,Heart_Left_Ventricle,PRKCA,5.94596439339797e-11
+##  8 GTEx2015_v6,Heart_Left_Ventricle,PRKCA,4.47516526282854e-12;Koopman2014,Hea
+##  9                 GTEx2015_v6,Heart_Left_Ventricle,PRKCA,2.47655996890797e-09
+## 10                 GTEx2015_v6,Heart_Left_Ventricle,PRKCA,6.80544182605399e-11
+## # ... with 23 more rows, and 1 more variables: rsID &lt;fctr&gt;</code></pre>
 </div>
 <div id="uploading-file-with-variants" class="section level4">
 <h4>Uploading file with variants</h4>
@@ -320,27 +323,29 @@ write.xlsx(x=subset.high.LD, file=&quot;subset.high.LD.xlsx&quot;)</code></pre>
 <pre class="r"><code>library(haploR)
 x &lt;- queryHaploreg(file=system.file(&quot;extdata/snps.txt&quot;, package = &quot;haploR&quot;))
 x</code></pre>
-<pre><code>## # A tibble: 33 × 33
-##      chr pos_hg38    r2  `D'` is_query_snp       rsID   ref   alt   AFR
-##    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;        &lt;dbl&gt;      &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;
-## 1     17 66213160  0.82  0.93            0  rs4790914     C     G  0.84
-## 2     17 66213422  0.82  0.93            0  rs4791079     T     G  0.85
-## 3     17 66213896  0.82  0.93            0  rs4791078     A     C  0.84
-## 4     17 66214285  0.83  0.93            0  rs1971682     G     C  0.86
-## 5     17 66216124  0.83  0.93            0  rs4366742     T     C  0.93
-## 6     17 66219453  0.83  0.93            0  rs2215415     G     A  0.91
-## 7     17 66220526  0.83  0.93            0  rs3744317     G     A  0.93
-## 8     17 66227121  0.83  0.94            0  rs8178827     C     T  0.90
-## 9     17 66230111  0.83  0.93            0 rs71160546    GA     G  0.87
-## 10    17 66231972  0.82  0.99            0 rs11079645     G     T  0.88
-## # ... with 23 more rows, and 24 more variables: AMR &lt;dbl&gt;, ASN &lt;dbl&gt;,
-## #   EUR &lt;dbl&gt;, GERP_cons &lt;dbl&gt;, SiPhy_cons &lt;dbl&gt;, Chromatin_States &lt;chr&gt;,
-## #   Chromatin_States_Imputed &lt;chr&gt;, Chromatin_Marks &lt;chr&gt;, DNAse &lt;chr&gt;,
-## #   Proteins &lt;chr&gt;, eQTL &lt;chr&gt;, gwas &lt;chr&gt;, grasp &lt;chr&gt;, Motifs &lt;chr&gt;,
-## #   GENCODE_id &lt;chr&gt;, GENCODE_name &lt;chr&gt;, GENCODE_direction &lt;dbl&gt;,
-## #   GENCODE_distance &lt;dbl&gt;, RefSeq_id &lt;chr&gt;, RefSeq_name &lt;chr&gt;,
-## #   RefSeq_direction &lt;dbl&gt;, RefSeq_distance &lt;dbl&gt;,
-## #   dbSNP_functional_annotation &lt;chr&gt;, query_snp_rsid &lt;chr&gt;</code></pre>
+<pre><code>## # A tibble: 33 x 35
+##       chr pos_hg38     r2   `D'` is_query_snp       rsID    ref    alt
+##    &lt;fctr&gt;   &lt;fctr&gt; &lt;fctr&gt; &lt;fctr&gt;       &lt;fctr&gt;     &lt;fctr&gt; &lt;fctr&gt; &lt;fctr&gt;
+##  1     17 66240200      1      1            1 rs10048158      T      C
+##  2     17 66240200   0.82   0.93            0 rs10048158      T      C
+##  3     17 66231972   0.82   0.99            0 rs11079645      G      T
+##  4     17 66248387   0.99      1            0 rs12603947      T      C
+##  5     17 66248387   0.81   0.92            0 rs12603947      T      C
+##  6     17 66214285   0.98   0.99            0  rs1971682      G      C
+##  7     17 66214285   0.83   0.93            0  rs1971682      G      C
+##  8     17 66240359   0.83      1            0  rs2013785      A      G
+##  9     17 66219777   0.82   0.99            0  rs2215414      A      G
+## 10     17 66219453   0.83   0.93            0  rs2215415      G      A
+## # ... with 23 more rows, and 27 more variables: AFR &lt;fctr&gt;, AMR &lt;fctr&gt;,
+## #   ASN &lt;fctr&gt;, EUR &lt;fctr&gt;, GERP_cons &lt;fctr&gt;, SiPhy_cons &lt;fctr&gt;,
+## #   Chromatin_States &lt;fctr&gt;, Chromatin_States_Imputed &lt;fctr&gt;,
+## #   Chromatin_Marks &lt;fctr&gt;, DNAse &lt;fctr&gt;, Proteins &lt;fctr&gt;, eQTL &lt;fctr&gt;,
+## #   gwas &lt;fctr&gt;, grasp &lt;fctr&gt;, Motifs &lt;fctr&gt;, GENCODE_id &lt;fctr&gt;,
+## #   GENCODE_name &lt;fctr&gt;, GENCODE_direction &lt;fctr&gt;,
+## #   GENCODE_distance &lt;fctr&gt;, RefSeq_id &lt;fctr&gt;, RefSeq_name &lt;fctr&gt;,
+## #   RefSeq_direction &lt;fctr&gt;, RefSeq_distance &lt;fctr&gt;,
+## #   dbSNP_functional_annotation &lt;fctr&gt;, query_snp_rsid &lt;fctr&gt;,
+## #   Promoter_histone_marks &lt;fctr&gt;, Enhancer_histone_marks &lt;fctr&gt;</code></pre>
 <p>File “snps.txt” is a text file which contains one rs-ID per line:</p>
 <pre><code>rs10048158
 rs4791078</code></pre>
@@ -369,27 +374,38 @@ studies[[2]]</code></pre>
 # this study:
 x &lt;- queryHaploreg(study=studies[[1]])
 x</code></pre>
-<pre><code>## # A tibble: 117 × 33
-##      chr pos_hg38    r2  `D'` is_query_snp       rsID   ref   alt   AFR
-##    &lt;chr&gt;    &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;        &lt;dbl&gt;      &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;
-## 1     11 34524785  0.97  1.00            0   rs836138     C     A  0.34
-## 2     11 34524788  0.87  0.97            0 rs11032744     C     T  0.04
-## 3     11 34526877  1.00  1.00            0   rs836137     A     G  0.37
-## 4     11 34527359  1.00  1.00            0   rs836135     G     A  0.36
-## 5     11 34527815  1.00  1.00            0   rs704727     T     A  0.16
-## 6     11 34530979  0.96  0.99            0   rs836133     C     T  0.16
-## 7     11 34531545  0.90  1.00            0 rs77003093     C     T  0.01
-## 8     11 34533644  1.00  1.00            1   rs836132     G     A  0.16
-## 9     11 34534390  1.00  1.00            0   rs836131     C     T  0.16
-## 10    11 34535548  1.00  1.00            0   rs836130     G     T  0.36
-## # ... with 107 more rows, and 24 more variables: AMR &lt;dbl&gt;, ASN &lt;dbl&gt;,
-## #   EUR &lt;dbl&gt;, GERP_cons &lt;dbl&gt;, SiPhy_cons &lt;dbl&gt;, Chromatin_States &lt;chr&gt;,
-## #   Chromatin_States_Imputed &lt;chr&gt;, Chromatin_Marks &lt;chr&gt;, DNAse &lt;chr&gt;,
-## #   Proteins &lt;chr&gt;, eQTL &lt;chr&gt;, gwas &lt;chr&gt;, grasp &lt;chr&gt;, Motifs &lt;chr&gt;,
-## #   GENCODE_id &lt;chr&gt;, GENCODE_name &lt;chr&gt;, GENCODE_direction &lt;dbl&gt;,
-## #   GENCODE_distance &lt;dbl&gt;, RefSeq_id &lt;chr&gt;, RefSeq_name &lt;chr&gt;,
-## #   RefSeq_direction &lt;dbl&gt;, RefSeq_distance &lt;dbl&gt;,
-## #   dbSNP_functional_annotation &lt;chr&gt;, query_snp_rsid &lt;chr&gt;</code></pre>
+<pre><code>## # A tibble: 117 x 35
+##       chr pos_hg38     r2   `D'` is_query_snp        rsID    ref    alt
+##    &lt;fctr&gt;   &lt;fctr&gt; &lt;fctr&gt; &lt;fctr&gt;       &lt;fctr&gt;      &lt;fctr&gt; &lt;fctr&gt; &lt;fctr&gt;
+##  1     17 66240200      1      1            1  rs10048158      T      C
+##  2     17 66083697   0.91   0.98            0  rs10163474      A      C
+##  3     17 66083844   0.92   0.99            0  rs10163475      C      T
+##  4     11 34524788   0.87   0.97            0  rs11032744      C      T
+##  5     11  9080475   0.87   0.93            0  rs11042174      C      A
+##  6     17 66231972   0.82   0.99            0  rs11079645      G      T
+##  7     17 66103942      1      1            0   rs1113843      T      C
+##  8     11 34542502    0.9   0.96            0 rs111549285      G     GT
+##  9     10 99597960   0.93   0.97            0  rs11190170      G      C
+## 10     10 99598624   0.93   0.97            0  rs11190172      T      C
+## # ... with 107 more rows, and 27 more variables: AFR &lt;fctr&gt;, AMR &lt;fctr&gt;,
+## #   ASN &lt;fctr&gt;, EUR &lt;fctr&gt;, GERP_cons &lt;fctr&gt;, SiPhy_cons &lt;fctr&gt;,
+## #   Chromatin_States &lt;fctr&gt;, Chromatin_States_Imputed &lt;fctr&gt;,
+## #   Chromatin_Marks &lt;fctr&gt;, DNAse &lt;fctr&gt;, Proteins &lt;fctr&gt;, eQTL &lt;fctr&gt;,
+## #   gwas &lt;fctr&gt;, grasp &lt;fctr&gt;, Motifs &lt;fctr&gt;, GENCODE_id &lt;fctr&gt;,
+## #   GENCODE_name &lt;fctr&gt;, GENCODE_direction &lt;fctr&gt;,
+## #   GENCODE_distance &lt;fctr&gt;, RefSeq_id &lt;fctr&gt;, RefSeq_name &lt;fctr&gt;,
+## #   RefSeq_direction &lt;fctr&gt;, RefSeq_distance &lt;fctr&gt;,
+## #   dbSNP_functional_annotation &lt;fctr&gt;, query_snp_rsid &lt;fctr&gt;,
+## #   Promoter_histone_marks &lt;fctr&gt;, Enhancer_histone_marks &lt;fctr&gt;</code></pre>
+</div>
+<div id="extended-view-of-snp" class="section level4">
+<h4>Extended view of SNP</h4>
+<p>If you want to see more information about SNP of interest, you can use the <code>getExtendedView</code>: Parameters: <em><code>snp</code> - A SNP of interest. </em><code>url</code> - A url to the HaploReg. Default: “<a href="http://archive.broadinstitute.org/mammals/haploreg/detail_v4.1.php?query" class="uri">http://archive.broadinstitute.org/mammals/haploreg/detail_v4.1.php?query</a>=&amp;id=”</p>
+<p>Return A list of tables <code>t1</code>, <code>t2</code>, …, etc, depending on information contained in HaploReg database.</p>
+<p>Example:</p>
+<pre class="r"><code>library(haploR)
+tables &lt;- getExtendedView(snp=&quot;rs10048158&quot;)
+tables</code></pre>
 </div>
 </div>
 <div id="querying-regulomedb" class="section level3">
@@ -432,15 +448,15 @@ x</code></pre>
 <pre class="r"><code>library(haploR)
 x &lt;- queryRegulome(c(&quot;rs4791078&quot;,&quot;rs10048158&quot;))
 x$res.table</code></pre>
-<pre><code>## # A tibble: 2 × 5
+<pre><code>## # A tibble: 2 x 5
 ##   `#chromosome` coordinate       rsid
-##           &lt;chr&gt;      &lt;dbl&gt;      &lt;chr&gt;
+##          &lt;fctr&gt;     &lt;fctr&gt;     &lt;fctr&gt;
 ## 1         chr17   64236317 rs10048158
 ## 2         chr17   64210013  rs4791078
-## # ... with 2 more variables: hits &lt;chr&gt;, score &lt;dbl&gt;</code></pre>
+## # ... with 2 more variables: hits &lt;fctr&gt;, score &lt;fctr&gt;</code></pre>
 <pre class="r"><code>x$bad.snp.id</code></pre>
-<pre><code>## # A tibble: 0 × 1
-## # ... with 1 variables: rsID &lt;chr&gt;</code></pre>
+<pre><code>## # A tibble: 0 x 1
+## # ... with 1 variables: rsID &lt;fctr&gt;</code></pre>
 </div>
 </div>
 </div>
@@ -462,15 +478,15 @@ x$res.table</code></pre>
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] haploR_1.4.6
+## [1] haploR_1.5.1
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.12.10    XML_3.98-1.7    digest_0.6.12   rprojroot_1.2  
-##  [5] mime_0.5        R6_2.2.0        backports_1.0.5 magrittr_1.5   
-##  [9] evaluate_0.10   httr_1.2.1      stringi_1.1.5   curl_2.6       
-## [13] RUnit_0.4.31    rmarkdown_1.5   tools_3.4.0     stringr_1.2.0  
-## [17] yaml_2.1.14     compiler_3.4.0  htmltools_0.3.6 knitr_1.15.1   
-## [21] tibble_1.3.0</code></pre>
+##  [1] Rcpp_0.12.11    XML_3.98-1.9    digest_0.6.12   rprojroot_1.2  
+##  [5] mime_0.5        R6_2.2.2        backports_1.1.0 magrittr_1.5   
+##  [9] evaluate_0.10.1 httr_1.2.1      rlang_0.1.1     stringi_1.1.5  
+## [13] curl_2.7        RUnit_0.4.31    rmarkdown_1.6   tools_3.4.0    
+## [17] stringr_1.2.0   yaml_2.1.14     compiler_3.4.0  htmltools_0.3.6
+## [21] knitr_1.16      tibble_1.3.3</code></pre>
 </div>
 
 

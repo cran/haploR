@@ -39,6 +39,11 @@ studies[[2]]
 x <- queryHaploreg(study=studies[[1]])
 x
 
+## ---- echo=TRUE, eval=FALSE, message=FALSE-------------------------------
+#  library(haploR)
+#  tables <- getExtendedView(snp="rs10048158")
+#  tables
+
 ## ---- echo=TRUE, message=FALSE-------------------------------------------
 library(haploR)
 x <- queryRegulome(c("rs4791078","rs10048158"))
