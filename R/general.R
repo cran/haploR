@@ -2,8 +2,11 @@
 #' @importFrom httr upload_file timeout user_agent
 #' @importFrom XML htmlTreeParse htmlTreeParse xpathApply
 #' @importFrom XML xmlValue xmlGetAttr readHTMLTable
-#' @importFrom XML htmlParse
+#' @importFrom XML htmlParse xpathSApply
 #' @importFrom tibble as_tibble
 #' @importFrom RUnit checkEqualsNumeric
 #' @importFrom plyr ldply
+#' @importFrom utils read.csv
+#' @importFrom stats runif setNames
+#' @importFrom DT datatable formatStyle styleInterval %>% 
 NULL
