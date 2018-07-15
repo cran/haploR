@@ -1,8 +1,8 @@
 Package: haploR
 Type: Package
 Title: Query 'HaploReg', 'RegulomeDB', 'LDlink'
-Version: 2.0.3
-Date: 2018-06-30
+Version: 2.0.4
+Date: 2018-07-11
 Authors@R: c(person(c("Ilya", "Y."), "Zhbannikov", email = "ilya.zhbannikov@duke.edu", role = c("aut", "cre")),
              person(c("Konstantin", "G."), "Arbeev", email = "konstantin.arbeev@duke.edu", role = c("aut")),
              person(c("Anatoliy", "I."), "Yashin", email = "aiy@duke.edu", role = c("aut")))
@@ -23,9 +23,9 @@ Depends: R (>= 3.3.2)
 Encoding: UTF-8
 License: GPL-3
 NeedsCompilation: no
-Packaged: 2018-07-01 11:46:08 UTC; ilya
+Packaged: 2018-07-15 07:27:42 UTC; ilya
 Author: Ilya Y. Zhbannikov [aut, cre],
   Konstantin G. Arbeev [aut],
   Anatoliy I. Yashin [aut]
 Repository: CRAN
-Date/Publication: 2018-07-01 13:30:31 UTC
+Date/Publication: 2018-07-15 07:50:03 UTC

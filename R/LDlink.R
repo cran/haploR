@@ -2,11 +2,12 @@
 #' 
 #' @param ldmat A LDmatrix in which the first column should contain rdIDs
 #' @return colored (fancy) matrix with LD gradient (an object of classses \code{datatables}, \code{htmlwidget})
-#' @examples
+#' @examples \dontrun{ 
 #' library(haploR)
 #' data <- LDlink.LDmatrix(c("rs10048158","rs4791078"))
 #' head(data)
 #' makeStylishLDmatrix(data$matrix.r2)
+#' }
 #' @rdname haploR-makeStylishLDmatrix
 #' @export
 makeStylishLDmatrix <- function(ldmat) {
@@ -120,6 +121,7 @@ LDlink.LDmatrix <- function(snps, population="ALL") {
                  paste("r2_d=","r2",sep=""))
     
     t.url <- paste(url, "?", paste(unlist(body), collapse = "&"), sep="")
+    set_config(config(ssl_verifypeer = 0L, ssl_verifyhost = 0L))
     r <- GET(url=t.url)
     #dat <- content(r, "text")
     
