@@ -1,4 +1,4 @@
-944a46cf8d6be35c33f7b7a47b9976a8 *DESCRIPTION
+0c55dedff8d223b89aa85add7faf9fcb *DESCRIPTION
 37bce34a1d8247764a5279274c4b9c2a *NAMESPACE
 2c976731a91e0a23e3a8316b412f4829 *R/LDlink.R
 5b6f28b8ec03118fb13a4959bbc7a576 *R/general.R
@@ -9,11 +9,11 @@ efaec9215074a84e7c73c740acd0edc8 *R/regulome.R
 10f687f5f381575e34d5710ee2f708bc *R/settings.R
 9c7fe3f697c59226b336fb53ab7ee2ff *R/utils.R
 8127a6b6a52d37b87ead75ec7a8b6878 *README.md
-90309f924824d161706e600a767f245f *build/vignette.rds
-a0bb5de1f591b70e88c95bc16d26c67c *inst/NEWS
-1d140f286a7dba3c94a3bfc92b27afe9 *inst/doc/haplor-vignette.R
-2140882518bcb643aa94a2ec589ef775 *inst/doc/haplor-vignette.Rmd
-dfa719ed5b29dd722917c4cb02c296dd *inst/doc/haplor-vignette.html
+9cfd9203ebbdaf44a1f067a8e5e51584 *build/vignette.rds
+ce8cb427cd25697708b8abd5ebefcaa0 *inst/NEWS
+fbcbc312247a83d42f2dc3cfc382ed17 *inst/doc/haplor-vignette.R
+96e3916fd54092908cef043900b6037e *inst/doc/haplor-vignette.Rmd
+0395dd664d7bb9d442d14f90075109f5 *inst/doc/haplor-vignette.html
 f013ae8ef7cc59c50cca6ea54aaeb589 *inst/extdata/snps.txt
 413b88e542b7b8fb5ce776a0cd7d8699 *inst/unitTests/test_LDlink.R
 9b7b07b3968da73392bf49a5aa833c8e *inst/unitTests/test_queryHaploreg.R
@@ -27,6 +27,7 @@ c43041b490e7a515cf8f206836e911d8 *man/haploR-queryHaploreg.Rd
 b1a270fa101839f376e760f0a0e03c03 *man/haploR-queryRegulome.Rd
 9b55b1a966da33edf86ffaf64c1b227c *tests/runTests.R
 471f8368a9c9d8b1dca15b714704c9bb *vignettes/Workflow.png
-2140882518bcb643aa94a2ec589ef775 *vignettes/haplor-vignette.Rmd
+96e3916fd54092908cef043900b6037e *vignettes/haplor-vignette.Rmd
+34156aab7f7116cca669254290dc57de *vignettes/references.bib
 0bfa502b9498e2bf6fcf8879f7e94a6e *vignettes/stylish.ldmatrix.dprime.png
 6a0c942204adac00f616360c68a1393b *vignettes/stylish.ldmatrix.r2.png
