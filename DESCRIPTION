@@ -1,8 +1,8 @@
 Package: haploR
 Type: Package
 Title: Query 'HaploReg', 'RegulomeDB', 'LDlink'
-Version: 2.0.7
-Date: 2019-01-17
+Version: 2.0.9
+Date: 2019-04-21
 Authors@R: c(person(c("Ilya", "Y."), "Zhbannikov", email = "ilya.zhbannikov@duke.edu", role = c("aut", "cre")),
              person(c("Konstantin", "G."), "Arbeev", email = "konstantin.arbeev@duke.edu", role = c("aut")),
              person(c("Anatoliy", "I."), "Yashin", email = "aiy@duke.edu", role = c("aut")))
@@ -18,14 +18,14 @@ Description: A set of utilities for querying
 RoxygenNote: 6.1.1
 Suggests: knitr, rmarkdown,openxlsx
 VignetteBuilder: knitr
-Imports: httr,XML,tibble,RUnit,plyr,DT
+Imports: httr,XML,tibble,RUnit,plyr,DT,RCurl
 Depends: R (>= 3.4.0)
 Encoding: UTF-8
 License: GPL-3
 NeedsCompilation: no
-Packaged: 2019-01-18 05:15:37 UTC; ilya
+Packaged: 2019-04-22 03:54:48 UTC; ilya
 Author: Ilya Y. Zhbannikov [aut, cre],
   Konstantin G. Arbeev [aut],
   Anatoliy I. Yashin [aut]
 Repository: CRAN
-Date/Publication: 2019-01-18 05:50:03 UTC
+Date/Publication: 2019-04-22 04:30:03 UTC

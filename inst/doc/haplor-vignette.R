@@ -59,16 +59,17 @@ x <- queryRegulome(c("rs4791078","rs10048158"))
 x$res.table
 x$bad.snp.id
 
-## ---- echo=TRUE, message=FALSE-------------------------------------------
-library(haploR)
-ldmat <- LDlink.LDmatrix(snps=c("rs77264218", "rs11229158", "rs10896659", "rs10896702", "rs2042592"), population="AFR")
-ldmat
-# Stylish matrix R2
-stylish.matrix.r2 <- makeStylishLDmatrix(ldmat$matrix.r2)
-stylish.matrix.r2
-# Stylish matrix D'
-stylish.matrix.Dprime <- makeStylishLDmatrix(ldmat$matrix.dprime)
-stylish.matrix.Dprime
+## ---- echo=TRUE, message=FALSE, eval=FALSE-------------------------------
+#  library(haploR)
+#  
+#  ldmat <- LDlink.LDmatrix(snps=c("rs77264218", "rs11229158", "rs10896659", "rs10896702", "rs2042592"), population="AFR")
+#  ldmat
+#  # Stylish matrix R2
+#  stylish.matrix.r2 <- makeStylishLDmatrix(ldmat$matrix.r2)
+#  stylish.matrix.r2
+#  # Stylish matrix D'
+#  stylish.matrix.Dprime <- makeStylishLDmatrix(ldmat$matrix.dprime)
+#  stylish.matrix.Dprime
 
 ## ---- echo=TRUE----------------------------------------------------------
 sessionInfo()
