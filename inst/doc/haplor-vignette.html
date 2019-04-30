@@ -186,15 +186,15 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">Using haploR, an R package for querying HaploReg, RegulomeDB and LDlink</h1>
 <h4 class="author"><em>Ilya Y. Zhbannikov</em></h4>
-<h4 class="date"><em>Sun Apr 21 23:54:40 2019</em></h4>
+<h4 class="date"><em>Mon Apr 29 21:28:23 2019</em></h4>
 
 </div>
 
 
 <div id="overview" class="section level2">
 <h2>Overview</h2>
-<p>HaploReg <span class="citation">(Ward and Kellis 2011)</span>, RegulomeDB <span class="citation">(Boyle et al. 2012)</span>, and LDlink <span class="citation">(Machiela and Chanock 2015)</span> are web-based tools that extract biological information such as eQTL, LD, LD matrices, motifs, etc. from large genomic projects such as ENCODE, the 1000 Genomes Project, Roadmap Epigenomics Project and others. This is sometimes called “post stage GWAS” analysis.</p>
-<p>The R-package <em>haploR</em> was developed to query those tools (HaploReg, RegulomeDB, LDlink) directly from <em>R</em> in order to facilitate high-throughput genomic data analysis. Below we provide several examples that show how to work with this package.</p>
+<p>HaploReg <span class="citation">(Ward and Kellis 2011)</span>, RegulomeDB <span class="citation">(Boyle et al. 2012)</span>, and are web-based tools that extract biological information such as eQTL, LD, motifs, etc. from large genomic projects such as ENCODE, the 1000 Genomes Project, Roadmap Epigenomics Project and others. This is sometimes called “post stage GWAS” analysis.</p>
+<p>The R-package <em>haploR</em> was developed to query those tools (HaploReg, RegulomeDB) directly from <em>R</em> in order to facilitate high-throughput genomic data analysis. Below we provide several examples that show how to work with this package.</p>
 <p>Note: you must have a stable Internet connection to use this package.</p>
 <p>Contact: <a href="mailto:ilya.zhbannikov@duke.edu">ilya.zhbannikov@duke.edu</a> for questions of usage the <em>haploR</em> or any other issues.</p>
 <div id="motivation-and-typical-analysis-workflow" class="section level3">
@@ -333,8 +333,10 @@ x</code></pre>
 ## #   Promoter_histone_marks &lt;fct&gt;, Enhancer_histone_marks &lt;fct&gt;</code></pre>
 <p>Here <em>query</em> is a vector with names of genetic variants.</p>
 <p>We then can create a subset from the results, for example, to choose only SNPs with r2 <span class="math inline">\(&gt;\)</span> 0.9:</p>
-<pre class="r"><code>subset.high.LD &lt;- x[as.numeric(x$r2) &gt; 0.9, c(&quot;rsID&quot;, &quot;r2&quot;, &quot;chr&quot;, &quot;pos_hg38&quot;, &quot;is_query_snp&quot;, &quot;ref&quot;, &quot;alt&quot;)]
-subset.high.LD</code></pre>
+<pre class="r"><code>if(length(x)!=0) {
+  subset.high.LD &lt;- x[as.numeric(x$r2) &gt; 0.9, c(&quot;rsID&quot;, &quot;r2&quot;, &quot;chr&quot;, &quot;pos_hg38&quot;, &quot;is_query_snp&quot;, &quot;ref&quot;, &quot;alt&quot;)]
+  subset.high.LD
+}</code></pre>
 <pre><code>## # A tibble: 13 x 7
 ##    rsID          r2   chr pos_hg38 is_query_snp ref   alt  
 ##    &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;           &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;
@@ -355,22 +357,10 @@ subset.high.LD</code></pre>
 <pre class="r"><code>require(openxlsx)
 write.xlsx(x=subset.high.LD, file=&quot;subset.high.LD.xlsx&quot;)</code></pre>
 <p>This was an example of gathering post-gwas information directly from the online tool. <em>haploR</em> has an additional advantage because it downloads the full information for query retrieved by HaploReg. For example, if you go online and submit these two SNPs to HaploReg (<a href="https://pubs.broadinstitute.org/mammals/haploreg/haploreg.php" class="uri">https://pubs.broadinstitute.org/mammals/haploreg/haploreg.php</a>), you will see that some cells of columns “Motifs changed” and “Selected eQTL hits” are hidded (only number of hits are given). <em>haploR</em> retrives this information in a form of a data frame which can be saved into Excel file.</p>
-<pre class="r"><code>x[, c(&quot;Motifs&quot;, &quot;rsID&quot;)]</code></pre>
-<pre><code>## # A tibble: 33 x 2
-##    Motifs                                                        rsID     
-##    &lt;chr&gt;                                                         &lt;chr&gt;    
-##  1 Mrg1::Hoxa9_1;Pou2f2_known3                                   rs100481…
-##  2 Mrg1::Hoxa9_1;Pou2f2_known3                                   rs100481…
-##  3 GR_disc4;SZF1-1                                               rs110796…
-##  4 E2F_disc4;Irf_disc1;Pou2f2_known3;SRF_known4;THAP1_disc1;YY1… rs126039…
-##  5 E2F_disc4;Irf_disc1;Pou2f2_known3;SRF_known4;THAP1_disc1;YY1… rs126039…
-##  6 AP-1_disc1;HEN1_1;Maf_disc2;NR4A_known1;RAR;RXRA_known3;T3R   rs1971682
-##  7 AP-1_disc1;HEN1_1;Maf_disc2;NR4A_known1;RAR;RXRA_known3;T3R   rs1971682
-##  8 BDP1_disc2;Hdx;Zfp410                                         rs2013785
-##  9 SP1_known3;SRF_known5;SRF_known6                              rs2215414
-## 10 AP-1_disc1;HEY1_disc1;TATA_disc2                              rs2215415
-## # ... with 23 more rows</code></pre>
-<pre class="r"><code>x[, c(&quot;eQTL&quot;, &quot;rsID&quot;)]</code></pre>
+<pre class="r"><code>if(length(x)!=0) {
+    x[, c(&quot;Motifs&quot;, &quot;rsID&quot;)]
+    x[, c(&quot;eQTL&quot;, &quot;rsID&quot;)]
+}</code></pre>
 <pre><code>## # A tibble: 33 x 2
 ##    eQTL                                                          rsID     
 ##    &lt;chr&gt;                                                         &lt;chr&gt;    
@@ -425,23 +415,15 @@ rs4791078</code></pre>
 # Getting a list of existing studies:
 studies &lt;- getStudyList()
 # Let us look at the first element:
-studies[[1]]</code></pre>
-<pre><code>## $name
-## [1] &quot;Î²2-Glycoprotein I (Î²2-GPI) plasma levels (Athanasiadis G, 2013, 9 SNPs)&quot;
-## 
-## $id
-## [1] &quot;1756&quot;</code></pre>
-<pre class="r"><code># Let us look at the second element:
-studies[[2]]</code></pre>
-<pre><code>## $name
-## [1] &quot;5-HTT brain serotonin transporter levels (Liu X, 2011, 1 SNP)&quot;
-## 
-## $id
-## [1] &quot;2362&quot;</code></pre>
-<pre class="r"><code># Query Hploreg to explore results from 
-# this study:
-x &lt;- queryHaploreg(study=studies[[1]])
-x</code></pre>
+if(!is.null(studies)) {
+    studies[[1]]
+    # Let us look at the second element:
+    studies[[2]]
+    # Query Hploreg to explore results from 
+    # this study:
+    x &lt;- queryHaploreg(study=studies[[1]])
+    x
+}</code></pre>
 <pre><code>## # A tibble: 117 x 35
 ##      chr pos_hg38    r2  `D'` is_query_snp rsID  ref   alt     AFR   AMR
 ##    &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt;        &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -527,47 +509,7 @@ x$res.table</code></pre>
 </div>
 <div id="querying-ldlink" class="section level3">
 <h3>Querying LDlink</h3>
-<p><em>LDlink</em> (<a href="https://doi.org/10.1093/bioinformatics/btv402" class="uri">https://doi.org/10.1093/bioinformatics/btv402</a>) is a set of web-based tools that allow exloring Linkage Disequilibrium of provided set of SNPs. <em>LDlink</em> allows for the following tools:</p>
-<ul>
-<li><em>LDassoc</em></li>
-<li><em>LDhap</em></li>
-<li><em>LDmatrix</em></li>
-<li><em>LDpair</em></li>
-<li><em>LDproxy</em></li>
-<li><em>SNPchip</em></li>
-<li><em>SNPclip</em></li>
-</ul>
-<p>Currently <em>haploR</em> supports <em>LDmatrix</em> only but we are currently working on adding other tools from <em>LDlink</em> project.</p>
-<div id="ldmatrix" class="section level4">
-<h4>LDmatrix</h4>
-<p>Function</p>
-<pre><code>LDlink.LDmatrix(snps, r2d = &quot;r2&quot;, population = &quot;ALL&quot;)</code></pre>
-<p>This function queries HaploReg web-based tool and returns results.</p>
-<div id="arguments-2" class="section level5">
-<h5>Arguments</h5>
-<ul>
-<li><em>snps</em>: A list of snps (a vector of rsIDs, or a file, one SNP per line).</li>
-<li><em>population</em>: A particular population. Default: <code>ALL</code>.</li>
-</ul>
-</div>
-<div id="value" class="section level5">
-<h5>Value</h5>
-<p>A list of two: (1) raw LD r2 matrix, (2) raw LD D-prime matrix.</p>
-</div>
-<div id="example-1" class="section level5">
-<h5>Example</h5>
-<pre class="r"><code>library(haploR)
-
-ldmat &lt;- LDlink.LDmatrix(snps=c(&quot;rs77264218&quot;, &quot;rs11229158&quot;, &quot;rs10896659&quot;, &quot;rs10896702&quot;, &quot;rs2042592&quot;), population=&quot;AFR&quot;)
-ldmat
-# Stylish matrix R2
-stylish.matrix.r2 &lt;- makeStylishLDmatrix(ldmat$matrix.r2)
-stylish.matrix.r2
-# Stylish matrix D'
-stylish.matrix.Dprime &lt;- makeStylishLDmatrix(ldmat$matrix.dprime)
-stylish.matrix.Dprime</code></pre>
-</div>
-</div>
+<p>Access to <em>LDlink</em> (<a href="https://doi.org/10.1093/bioinformatics/btv402" class="uri">https://doi.org/10.1093/bioinformatics/btv402</a>) was temporarily removed from <code>haploR</code>.</p>
 </div>
 <div id="roadmap-cell-types" class="section level3">
 <h3>Roadmap cell types</h3>
@@ -658,7 +600,7 @@ stylish.matrix.Dprime</code></pre>
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] haploR_2.0.9
+## [1] haploR_3.0.1
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] Rcpp_1.0.0       knitr_1.21       magrittr_1.5     R6_2.3.0        
@@ -675,9 +617,6 @@ stylish.matrix.Dprime</code></pre>
 <div id="refs" class="references">
 <div id="ref-Boyle_2012">
 <p>Boyle, A. P., E. L. Hong, M. Hariharan, Y. Cheng, M. A. Schaub, M. Kasowski, K. J. Karczewski, et al. 2012. “Annotation of Functional Variation in Personal Genomes Using RegulomeDB.” <em>Genome Research</em> 22 (9). Cold Spring Harbor Laboratory: 1790–7. doi:<a href="http://doi.org/10.1101/gr.137323.112">10.1101/gr.137323.112</a>.</p>
-</div>
-<div id="ref-Machiela_2015">
-<p>Machiela, Mitchell J., and Stephen J. Chanock. 2015. “LDlink: A Web-Based Application for Exploring Population-Specific Haplotype Structure and Linking Correlated Alleles of Possible Functional Variants: Fig. 1.” <em>Bioinformatics</em> 31 (21). Oxford University Press (OUP): 3555–7. doi:<a href="http://doi.org/10.1093/bioinformatics/btv402">10.1093/bioinformatics/btv402</a>.</p>
 </div>
 <div id="ref-Ward_2011">
 <p>Ward, L. D., and M. Kellis. 2011. “HaploReg: A Resource for Exploring Chromatin States, Conservation, and Regulatory Motif Alterations Within Sets of Genetically Linked Variants.” <em>Nucleic Acids Research</em> 40 (D1). Oxford University Press (OUP): D930–D934. doi:<a href="http://doi.org/10.1093/nar/gkr917">10.1093/nar/gkr917</a>.</p>
