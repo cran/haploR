@@ -1,4 +1,4 @@
-New for version 3.0.1
+New for version 4.0.1
 ======================
 * Version released
-* Access to LDlink was temporarily removed.
+* regulomeSummary() and regulomeSearch() added

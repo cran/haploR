@@ -1,7 +1,7 @@
 Overview
 --------
 
-HaploReg (<http://archive.broadinstitute.org/mammals/haploreg/haploreg.php>) and RegulomeDB (<http://www.regulomedb.org>) are web-based tools that extract biological information such as eQTL, LD, motifs, etc. from large genomic projects such as ENCODE, the 1000 Genomes Project, Roadmap Epigenomics Project and others. This is sometimes called "post stage GWAS" analysis.
+HaploReg (<https://pubs.broadinstitute.org/mammals/haploreg/haploreg.php>) and RegulomeDB (<http://www.regulomedb.org>) are web-based tools that extract biological information such as eQTL, LD, motifs, etc. from large genomic projects such as ENCODE, the 1000 Genomes Project, Roadmap Epigenomics Project and others. This is sometimes called "post stage GWAS" analysis.
 
 The R-package *haploR* was developed to query those tools (HaploReg and RegulomeDB) directly from *R* in order to facilitate high-throughput genomic data analysis. Below we provide several examples that show how to work with this package.
 
@@ -50,6 +50,8 @@ devtools::install_github("izhbannikov/haplor")
 -   *tibble*, version 1.3.0 or later.
 -   *RUnit*, version 0.4.31 or later.
 -   *plyr*, version 1.8.4 or later.
+-   *RJSONIO*, version 1.3-1.4 or later.
+-   *R*
 
 Examples of usage
 -----------------
@@ -60,7 +62,7 @@ Function
 
     queryHaploreg(query = NULL, file = NULL, study = NULL, ldThresh = 0.8,
       ldPop = "EUR", epi = "vanilla", cons = "siphy", genetypes = "gencode",
-      url = "http://archive.broadinstitute.org/mammals/haploreg/haploreg.php",
+      url = "https://pubs.broadinstitute.org/mammals/haploreg/haploreg.php",
       timeout = 10, encoding = "UTF-8", verbose = FALSE)
 
 queries HaploReg web-based tool and returns results.
@@ -75,7 +77,7 @@ queries HaploReg web-based tool and returns results.
 -   *epi*: Source for epigenomes. Possible values: `vanilla` for ChromHMM (Core 15-state model); `imputed` for ChromHMM (25-state model using 12 imputed marks); `methyl` for H3K4me1/H3K4me3 peaks; `acetyl` for H3K27ac/H3K9ac peaks. Default: `vanilla`.
 -   *cons*: Mammalian conservation algorithm. Possible values: `gerp` for GERP (<http://mendel.stanford.edu/SidowLab/downloads/gerp/>), `siphy` for SiPhy-omega, `both` for both. Default: siphy.
 -   *genetypes*: Show position relative to. Possible values: `gencode` for Gencode genes; `refseq` for RefSeq genes; `both` for both. Default: `gencode`.
--   *url*: HaploReg url address. Default: <http://archive.broadinstitute.org/mammals/haploreg/haploreg.php>
+-   *url*: HaploReg url address. Default: <https://pubs.broadinstitute.org/mammals/haploreg/haploreg.php>
 -   *timeout*: A timeout parameter for curl. Default: `10`
 -   *encoding*: Set the encoding for correct retrieval web-page content. Default: `UTF-8`
 -   *verbose*: Verbosing output. Default: `FALSE`.
@@ -185,7 +187,7 @@ require(openxlsx)
 write.xlsx(x=subset.high.LD, file="subset.high.LD.xlsx")
 ```
 
-This was an example of gathering post-gwas information directly from the online tool. *haploR* has an additional advantage because it downloads the full information for query retrieved by HaploReg. For example, if you go online and submit these two SNPs to HaploReg (<http://archive.broadinstitute.org/mammals/haploreg/haploreg.php>), you will see that some cells of columns "Motifs changed" and "Selected eQTL hits" are hidded (only number of hits are given). *haploR* retrives this information in a form of a data frame which can be saved into Excel file.
+This was an example of gathering post-gwas information directly from the online tool. *haploR* has an additional advantage because it downloads the full information for query retrieved by HaploReg. For example, if you go online and submit these two SNPs to HaploReg (<https://pubs.broadinstitute.org/mammals/haploreg/haploreg.php>), you will see that some cells of columns "Motifs changed" and "Selected eQTL hits" are hidded (only number of hits are given). *haploR* retrives this information in a form of a data frame which can be saved into Excel file.
 
 ``` r
 x[, c("Motifs", "rsID")]
@@ -264,7 +266,7 @@ File "snps.txt" is a text file which contains one rs-ID per line:
 
 #### Using existing studies
 
-Sometimes one would like to explore results from already performed study. In this case you should first explore the existing studies from HaploReg web site (<http://archive.broadinstitute.org/mammals/haploreg/haploreg.php>) and then use one of them as an input parameter. See example below:
+Sometimes one would like to explore results from already performed study. In this case you should first explore the existing studies from HaploReg web site (<https://pubs.broadinstitute.org/mammals/haploreg/haploreg.php>) and then use one of them as an input parameter. See example below:
 
 ``` r
 library(haploR)
@@ -322,9 +324,9 @@ x
 
 ### Querying RegulomeDB
 
-To query RegulomeDB use this function:
+To query RegulomeDB use these 2 functions:
 
-    queryRegulome(query = NULL, 
+    regulomeSummary(query = NULL, 
                   format = "full",
                   url = "http://www.regulomedb.org/results", 
                   timeout = 10,
@@ -344,41 +346,24 @@ This function queries RegulomeDB <http://www.regulomedb.org> web-based tool and 
 
 #### Output
 
-A list of two: (1) a data frame (res.table) wrapped to a *tibble* object and (2) a list of bad SNP IDs (bad.snp.id). Bad SNP ID are those IDs that were not found in 1000 Genomes Phase 1 data and, therefore, in RegulomeDB.
-
-Columns in a data frame (res.table):
-
--   *\#chromosome*: Chromosome. Type: character.
--   *coordinate*: Position. Type: numeric.
--   *rsid*: RefSeq SNP ID. Type: character.
--   *hits*: Contains information about chromatin structure: method and cell type. Type: character.
--   *score*: Internal RegulomeDB score. See <http://www.regulomedb.org/help#score>. Type: numeric.
-
-Number of rows is equal or less (in case if not all SNPs were found in RegulomeDB database) to number of query SNPs.
-
-All the information retreived from RegulomeDB, except *hits*, are also presented in HaploReg output (`queryHaploReg(...)`).
+A data frame (table)
+OR a list with the following items:
+- guery_coordinates
+- features
+- regulome_score
+- variants
+- nearby_snps
+- assembly
 
 #### Example
 
 ``` r
 library(haploR)
-x <- queryRegulome(c("rs4791078","rs10048158"))
-x$res.table
+x <- regulomeSummary(c("rs4791078","rs10048158"))
+x
 ```
 
-    ## # A tibble: 2 x 5
-    ##   `#chromosome` coordinate       rsid
-    ##           <chr>      <dbl>      <chr>
-    ## 1         chr17   64236317 rs10048158
-    ## 2         chr17   64210013  rs4791078
-    ## # ... with 2 more variables: hits <chr>, score <dbl>
 
-``` r
-x$bad.snp.id
-```
-
-    ## # A tibble: 0 x 1
-    ## # ... with 1 variables: rsID <chr>
 
 ### Querying LDlink
 
