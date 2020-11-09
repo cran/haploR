@@ -1,12 +1,3 @@
-## ---- message=FALSE, echo=FALSE-----------------------------------------------
-#library(knitcitations)
-#cleanbib()
-#options("citation_format" = "pandoc")
-#r<-citep("10.1093/nar/gkr917") 
-#r<-citep("10.1101/gr.137323.112")
-#r<-citep("10.1093/bioinformatics/btv402")
-#write.bibtex(file="references.bib")
-
 ## ---- echo=TRUE, eval=FALSE---------------------------------------------------
 #  install.packages("haploR", dependencies = TRUE)
 
