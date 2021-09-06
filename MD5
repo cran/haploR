@@ -1,8 +1,8 @@
-2f33010fc34dc47dfd153a197a29c487 *DESCRIPTION
-f334c6943e48833135e05c1d3b3fda4f *NAMESPACE
-66da290829fc6a1fe34139af6547fc25 *R/general.R
+de3ecafb3022aa2bd142aead25b27eb5 *DESCRIPTION
+bab92cf07e8072ad2d224cf108818327 *NAMESPACE
+eeb50a9aeb2911bd23e68a62ecfe2c1d *R/general.R
 0826632e1ea8e73505c09e2540bbdce1 *R/haploreg.R
-10c2058ed20d68bacceb7ff22acc4c48 *R/haploregExtendedView.R
+2f0553bc44b71a8abc4bf04e638beacf *R/haploregExtendedView.R
 3426787cafa8693167de50b4057ba5c8 *R/haploregStudy.R
 74b247aa8da6c94c8d5654693b37f673 *R/regulome.R
 dd5bf1e4f84d92addf6117d8d93d901c *R/regulomeSearch.R
@@ -10,11 +10,11 @@ dd5bf1e4f84d92addf6117d8d93d901c *R/regulomeSearch.R
 7d1ba5d24695292f3a5f1d58fb1706e3 *R/settings.R
 9c7fe3f697c59226b336fb53ab7ee2ff *R/utils.R
 37b0463762f9c0b8df3c9ea53dee3753 *README.md
-e3bab43c55d123bc6231bd3ac0582f9d *build/vignette.rds
-15caa7312d919f00e0ab48b5ae1c4cdd *inst/NEWS
+bb8daf70611228046ff6c19fece9be67 *build/vignette.rds
+c2020c7918c78572f54bb78243032ba3 *inst/NEWS
 9a4882e26f2b4c33e4a512826204d84c *inst/doc/haplor-vignette.R
 2d4d59d451ea71ee83977cb659f3e779 *inst/doc/haplor-vignette.Rmd
-471d91a29da98bf059962c9bc2f2f917 *inst/doc/haplor-vignette.html
+4298059945e0346e03ce439b376422a7 *inst/doc/haplor-vignette.html
 f013ae8ef7cc59c50cca6ea54aaeb589 *inst/extdata/snps.txt
 8477e6b7452720b6b581b797ca381cb7 *inst/unitTests/test_queryHaploreg.R
 b7da97810db8efb168065a93d089a4ee *inst/unitTests/test_queryRegulome.R
