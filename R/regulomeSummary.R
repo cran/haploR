@@ -30,7 +30,7 @@ regulomeSummary <- function(query=NULL,
         # Extracting content
         raw <- content(r, "text") 
         json_content <- fromJSON(raw)
-        out <- lapply(json_content$summaries, function(x) {
+        out <- lapply(json_content$variants, function(x) {
           x[sapply(x, is.null)] <- NA
           unlist(x)
         })
@@ -39,6 +39,7 @@ regulomeSummary <- function(query=NULL,
         
     }, error=function(e) {
         print(e)
+        return(NULL)
     })
     
     return(res.table=as_tibble(out))
