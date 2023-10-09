@@ -142,7 +142,7 @@ simpleQuery <- function(query=NULL, file=NULL,
     output <- "text"
   
     if(!is.null(study)) {
-        if(class(study) == "list") {
+        if(is(study) == "list") {
             gwas_idx <- study$id
         } else {
         stop("Parameter study is not a list with 
@@ -195,7 +195,9 @@ simpleQuery <- function(query=NULL, file=NULL,
     colnames(res.table) <- strsplit(sp[[1]][1], '\t')[[1]]
     
     for(i in 2:length(sp[[1]])) {
-      res.table[i-1,] <- strsplit(sp[[1]][i], '\t')[[1]]
+      if(sp[[1]][i] != "") {
+          res.table[i-1,] <- strsplit(sp[[1]][i], '\t')[[1]]
+      }
     }
     
     #Convert numeric-like columns to actual numeric #
@@ -216,8 +218,12 @@ simpleQuery <- function(query=NULL, file=NULL,
         res.table <- res.table[, fields]
     }
   
+    # Removing blank columns:
+    res.table <- res.table[, colSums(is.na(res.table)) != nrow(res.table)] 
     # Removing blank rows:
-    res.table <- res.table[, colSums(is.na(res.table)) <= 1] 
+    res.table <- res.table[rowSums(is.na(res.table)) != ncol(res.table), ]
+    
+    #res.table$chr <- gsub(pattern = "Array", replacement = "", x = res.table$chr)
     
     data.merged <- addColumns(url, body, timeout, res.table)
     if(is.null(data.merged)) {
@@ -380,7 +386,7 @@ addColumns <- function(url, body, timeout, res.table) {
     }
   
     # Make important columns to be numeric
-    data.merged[["chr"]] <- as.num(data.merged[["chr"]])
+    #data.merged[["chr"]] <- as.num(data.merged[["chr"]])
     data.merged[["r2"]] <- as.num(data.merged[["r2"]])
     data.merged[["D'"]] <- as.num(data.merged[["D'"]])
     data.merged[["is_query_snp"]] <- as.num(data.merged[["is_query_snp"]])

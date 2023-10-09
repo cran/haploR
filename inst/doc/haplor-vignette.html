@@ -251,6 +251,7 @@ if (window.hljs) {
 
 
 
+
 <style type="text/css">
 /* for pandoc --citeproc since 2.11 */
 div.csl-bib-body { }
@@ -298,6 +299,9 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+details > summary > p:only-child {
+  display: inline;
+}
 pre code {
   padding: 0;
 }
@@ -317,8 +321,8 @@ pre code {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -326,16 +330,9 @@ pre code {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -382,7 +379,7 @@ pre code {
 
 <h1 class="title toc-ignore">Using haploR, an R package for querying HaploReg and RegulomeDB</h1>
 <h4 class="author">Ilya Y. Zhbannikov</h4>
-<h4 class="date">Sun Sep 19 06:03:18 2021</h4>
+<h4 class="date">Sun Oct 8 18:36:07 2023</h4>
 
 </div>
 
@@ -506,25 +503,25 @@ pre code {
 x &lt;- queryHaploreg(query=c(&quot;rs10048158&quot;,&quot;rs4791078&quot;))
 x</code></pre>
 <pre><code>## # A tibble: 33 × 35
-##      chr pos_hg38    r2  `D&#39;` is_query_snp rsID    ref   alt     AFR   AMR   ASN
-##    &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt;        &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-##  1    17 66240200  1     1               1 rs1004… T     C      0.93  0.66  0.92
-##  2    17 66240200  0.82  0.93            0 rs1004… T     C      0.93  0.66  0.92
-##  3    17 66231972  0.82  0.99            0 rs1107… G     T      0.88  0.63  0.9 
-##  4    17 66248387  0.99  1               0 rs1260… T     C      0.93  0.66  0.92
-##  5    17 66248387  0.81  0.92            0 rs1260… T     C      0.93  0.66  0.92
-##  6    17 66214285  0.98  0.99            0 rs1971… G     C      0.86  0.67  0.91
-##  7    17 66214285  0.83  0.93            0 rs1971… G     C      0.86  0.67  0.91
-##  8    17 66240359  0.83  1               0 rs2013… A     G      0.64  0.6   0.91
-##  9    17 66219777  0.82  0.99            0 rs2215… A     G      0.89  0.63  0.89
-## 10    17 66219453  0.83  0.93            0 rs2215… G     A      0.91  0.67  0.91
-## # … with 23 more rows, and 24 more variables: EUR &lt;dbl&gt;, GERP_cons &lt;chr&gt;,
-## #   SiPhy_cons &lt;chr&gt;, Chromatin_States &lt;chr&gt;, Chromatin_States_Imputed &lt;chr&gt;,
+##    chr     pos_hg38    r2  `D&#39;` is_query_snp rsID  ref   alt     AFR   AMR   ASN
+##    &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt;        &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1 17      66240200  1     1               1 rs10… T     C      0.93  0.66  0.92
+##  2 17      66240200  0.82  0.93            0 rs10… T     C      0.93  0.66  0.92
+##  3 Array17 66231972  0.82  0.99            0 rs11… G     T      0.88  0.63  0.9 
+##  4 Array17 66248387  0.99  1               0 rs12… T     C      0.93  0.66  0.92
+##  5 Array17 66248387  0.81  0.92            0 rs12… T     C      0.93  0.66  0.92
+##  6 17      66214285  0.98  0.99            0 rs19… G     C      0.86  0.67  0.91
+##  7 17      66214285  0.83  0.93            0 rs19… G     C      0.86  0.67  0.91
+##  8 Array17 66240359  0.83  1               0 rs20… A     G      0.64  0.6   0.91
+##  9 Array17 66219777  0.82  0.99            0 rs22… A     G      0.89  0.63  0.89
+## 10 17      66219453  0.83  0.93            0 rs22… G     A      0.91  0.67  0.91
+## # ℹ 23 more rows
+## # ℹ 24 more variables: EUR &lt;dbl&gt;, GERP_cons &lt;chr&gt;, SiPhy_cons &lt;chr&gt;,
+## #   Chromatin_States &lt;chr&gt;, Chromatin_States_Imputed &lt;chr&gt;,
 ## #   Chromatin_Marks &lt;chr&gt;, DNAse &lt;chr&gt;, Proteins &lt;chr&gt;, eQTL &lt;chr&gt;, gwas &lt;chr&gt;,
 ## #   grasp &lt;chr&gt;, Motifs &lt;chr&gt;, GENCODE_id &lt;chr&gt;, GENCODE_name &lt;chr&gt;,
 ## #   GENCODE_direction &lt;chr&gt;, GENCODE_distance &lt;chr&gt;, RefSeq_id &lt;chr&gt;,
-## #   RefSeq_name &lt;chr&gt;, RefSeq_direction &lt;chr&gt;, RefSeq_distance &lt;chr&gt;,
-## #   dbSNP_functional_annotation &lt;chr&gt;, query_snp_rsid &lt;chr&gt;, …</code></pre>
+## #   RefSeq_name &lt;chr&gt;, RefSeq_direction &lt;chr&gt;, RefSeq_distance &lt;chr&gt;, …</code></pre>
 <p>Here <em>query</em> is a vector with names of genetic variants.</p>
 <p>We then can create a subset from the results, for example, to choose only SNPs with r2 <span class="math inline">\(&gt;\)</span> 0.9:</p>
 <pre class="r"><code>if(length(x)!=0) {
@@ -532,21 +529,21 @@ x</code></pre>
   subset.high.LD
 }</code></pre>
 <pre><code>## # A tibble: 13 × 7
-##    rsID          r2   chr pos_hg38 is_query_snp ref   alt  
-##    &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;           &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;
-##  1 rs10048158  1       17 66240200            1 T     C    
-##  2 rs12603947  0.99    17 66248387            0 T     C    
-##  3 rs1971682   0.98    17 66214285            0 G     C    
-##  4 rs2215415   0.99    17 66219453            0 G     A    
-##  5 rs3744317   0.99    17 66220526            0 G     A    
-##  6 rs4366742   0.99    17 66216124            0 T     C    
-##  7 rs4790914   1       17 66213160            0 C     G    
-##  8 rs4791078   1       17 66213896            1 A     C    
-##  9 rs4791079   1       17 66213422            0 T     G    
-## 10 rs71160546  0.94    17 66230111            0 GA    G    
-## 11 rs7342920   0.99    17 66248527            0 T     G    
-## 12 rs8178827   0.96    17 66227121            0 C     T    
-## 13 rs9895261   1       17 66244318            0 A     G</code></pre>
+##    rsID          r2 chr     pos_hg38 is_query_snp ref   alt  
+##    &lt;chr&gt;      &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;           &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;
+##  1 rs10048158  1    17      66240200            1 T     C    
+##  2 rs12603947  0.99 Array17 66248387            0 T     C    
+##  3 rs1971682   0.98 17      66214285            0 G     C    
+##  4 rs2215415   0.99 17      66219453            0 G     A    
+##  5 rs3744317   0.99 Array17 66220526            0 G     A    
+##  6 rs4366742   0.99 Array17 66216124            0 T     C    
+##  7 rs4790914   1    17      66213160            0 C     G    
+##  8 rs4791078   1    17      66213896            1 A     C    
+##  9 rs4791079   1    17      66213422            0 T     G    
+## 10 rs71160546  0.94 Array17 66230111            0 GA    G    
+## 11 rs7342920   0.99 Array17 66248527            0 T     G    
+## 12 rs8178827   0.96 Array17 66227121            0 C     T    
+## 13 rs9895261   1    17      66244318            0 A     G</code></pre>
 <p>We can then save the <em>subset.high.LD</em> into an Excel workbook:</p>
 <pre class="r"><code>require(openxlsx)
 write.xlsx(x=subset.high.LD, file=&quot;subset.high.LD.xlsx&quot;)</code></pre>
@@ -1945,13 +1942,13 @@ y</code></pre>
 <div id="session-information" class="section level2">
 <h2>Session information</h2>
 <pre class="r"><code>sessionInfo()</code></pre>
-<pre><code>## R version 4.1.1 (2021-08-10)
+<pre><code>## R version 4.2.0 (2022-04-22)
 ## Platform: x86_64-apple-darwin17.0 (64-bit)
-## Running under: macOS Catalina 10.15.7
+## Running under: macOS Big Sur/Monterey 10.16
 ## 
 ## Matrix products: default
-## BLAS:   /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRblas.0.dylib
-## LAPACK: /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRlapack.dylib
+## BLAS:   /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRblas.0.dylib
+## LAPACK: /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRlapack.dylib
 ## 
 ## locale:
 ## [1] C/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
@@ -1960,19 +1957,19 @@ y</code></pre>
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] haploR_4.0.6
+## [1] haploR_4.0.7
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_1.0.7        bslib_0.3.0       compiler_4.1.1    pillar_1.6.2     
-##  [5] jquerylib_0.1.4   plyr_1.8.6        bitops_1.0-7      tools_4.1.1      
-##  [9] digest_0.6.27     jsonlite_1.7.2    evaluate_0.14     tibble_3.1.4     
-## [13] lifecycle_1.0.0   pkgconfig_2.0.3   rlang_0.4.11      cli_3.0.1        
-## [17] curl_4.3.2        yaml_2.2.1        xfun_0.26         fastmap_1.1.0    
-## [21] httr_1.4.2        stringr_1.4.0     knitr_1.34        htmlwidgets_1.5.4
-## [25] sass_0.4.0        vctrs_0.3.8       DT_0.19           R6_2.5.1         
-## [29] fansi_0.5.0       XML_3.99-0.7      rmarkdown_2.11    RJSONIO_1.3-1.5  
-## [33] magrittr_2.0.1    htmltools_0.5.2   ellipsis_0.3.2    RUnit_0.4.32     
-## [37] utf8_1.2.2        stringi_1.7.4     RCurl_1.98-1.4    crayon_1.4.1</code></pre>
+##  [1] Rcpp_1.0.11       knitr_1.44        magrittr_2.0.3    R6_2.5.1         
+##  [5] rlang_1.1.1       fastmap_1.1.1     fansi_1.0.4       httr_1.4.7       
+##  [9] plyr_1.8.8        tools_4.2.0       DT_0.30           xfun_0.40        
+## [13] utf8_1.2.3        cli_3.6.1         jquerylib_0.1.4   htmltools_0.5.6  
+## [17] yaml_2.3.7        digest_0.6.33     lifecycle_1.0.3   tibble_3.2.1     
+## [21] RJSONIO_1.3-1.8   vctrs_0.6.3       sass_0.4.7        htmlwidgets_1.6.2
+## [25] bitops_1.0-7      curl_5.0.2        RCurl_1.98-1.12   RUnit_0.4.32     
+## [29] glue_1.6.2        cachem_1.0.8      evaluate_0.21     rmarkdown_2.25   
+## [33] pillar_1.9.0      compiler_4.2.0    bslib_0.5.1       XML_3.99-0.14    
+## [37] jsonlite_1.8.7    pkgconfig_2.0.3</code></pre>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-Boyle_2012" class="csl-entry">
 Boyle, A. P., E. L. Hong, M. Hariharan, Y. Cheng, M. A. Schaub, M. Kasowski, K. J. Karczewski, et al. 2012. <span>“Annotation of Functional Variation in Personal Genomes Using <span>RegulomeDB</span>.”</span> <em>Genome Research</em> 22 (9): 1790–97. <a href="https://doi.org/10.1101/gr.137323.112">https://doi.org/10.1101/gr.137323.112</a>.
